@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: curl-client
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 360
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl
+              image: curlimages/curl:latest
+              resources:
+                limits:
+                  memory: "128Mi"
+                  cpu: "100m"
+              command: ["/bin/sh", "-c", "--"]
+              args: ['until curl -s -v -f -o /dev/null http://httpbin:8000; do echo "------ Trying again ------"; done']
+          restartPolicy: Never

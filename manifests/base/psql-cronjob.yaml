@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: psql-client
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 360
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: psql
+              image: postgres:latest
+              resources:
+                limits:
+                  memory: "128Mi"
+                  cpu: "100m"
+              env:
+                - name: URI
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-app
+                      key: uri
+              command: ["/bin/sh", "-c", "--"]
+              args: ['until psql $(URI) -c select 1; do echo "------ Trying again ------"; done']
+          restartPolicy: Never

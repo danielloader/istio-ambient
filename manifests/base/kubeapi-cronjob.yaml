@@ -1,0 +1,52 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubeapi-client
+rules:
+  - apiGroups:
+      - extensions
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - 'list'
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubeapi-client
+subjects:
+  - kind: ServiceAccount
+    name: kubeapi-client
+roleRef:
+  kind: Role
+  name: kubeapi-client
+  apiGroup: ""
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeapi-client
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kubeapi-client
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 360
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: kubeapi-client
+          containers:
+            - name: curl
+              image: curlimages/curl:latest
+              resources:
+                limits:
+                  memory: "128Mi"
+                  cpu: "100m"
+              command: ["/bin/sh", "-c", "--"]
+              args: ['until curl -s -v -f -o /dev/null https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}/apis/apps/v1 --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"; do echo "------ Trying again ------"; done']
+          restartPolicy: Never

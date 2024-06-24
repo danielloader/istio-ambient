@@ -1,0 +1,39 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: istio-test
+  region: eu-west-1
+  version: "1.30"
+iam:
+  withOIDC: true
+vpc:
+  nat:
+    gateway: Single
+managedNodeGroups:
+  - name: managed-ng-1
+    minSize: 1
+    maxSize: 2
+    desiredCapacity: 2
+    privateNetworking: true
+    spot: true
+    amiFamily: AmazonLinux2
+    instanceSelector:
+      vCPUs: 2
+      memory: 8GiB
+      cpuArchitecture: x86_64
+    updateConfig:
+      maxUnavailable: 1
+addons:
+  - name: vpc-cni # no version is specified so it deploys the default version
+    attachPolicyARNs:
+      - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+    version: "1.18.2"
+    configurationValues: '{"env":{"ENABLE_PREFIX_DELEGATION":"true","WARM_PREFIX_TARGET":"1","DISABLE_POD_V6":"true"}}'
+    resolveConflicts: overwrite
+  - name: coredns
+    version: latest # auto discovers the latest available
+  - name: kube-proxy
+    version: latest
+  - name: aws-ebs-csi-driver
+    wellKnownPolicies: # add IAM and service account
+      ebsCSIController: true

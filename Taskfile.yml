@@ -5,18 +5,26 @@ tasks:
   kind:
     cmds:
       - kind create cluster --config kind.yaml
-      - kubectl config use-context kind-istio-ambient-cloudnativepg
-  setup:
+  eks:
     cmds:
-      - kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
+      - eksctl create cluster -f eksctl.yaml
+  base:
+    cmds:
+      - kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -
       - istioctl install --set profile=ambient --skip-confirmation
       - kubectl label namespace default istio.io/dataplane-mode=ambient
-      - kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml
-      - kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml
+      - kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml --wait
+      - kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml --wait
       - kubectl apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.23/releases/cnpg-1.23.2.yaml --wait
-  apply:
+  update-kind:
     cmds:
-      - kubectl apply -k manifests/test-cluster --wait
-      - kubectl apply -k manifests/test-client-psql --wait
-      - kubectl apply -k manifests/test-client-goose --wait
-      - kubectl exec deploy/goose -- go install github.com/pressly/goose/v3/cmd/goose@latest
+      - kubectl apply -k manifests/kind --wait
+  update-eks:
+    cmds:
+      - kubectl apply -k manifests/eks --wait
+  destroy-kind:
+    cmds:
+      - kind delete cluster --config kind.yaml
+  destroy-eks:
+    cmds:
+      - eksctl delete cluster -f eksctl.yaml --disable-nodegroup-eviction

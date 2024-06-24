@@ -3,10 +3,15 @@ kind: Cluster
 metadata:
   name: postgres
 spec:
-  instances: 1
+  instances: 3
   resources:
     requests:
       cpu: 250m
       memory: 512Mi
+  primaryUpdateStrategy: unsupervised
+  inheritedMetadata:
+    labels:
+      app: postgres
+      version: "1"
   storage:
     size: 1Gi
