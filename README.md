@@ -37,10 +37,26 @@ There's 3 targets, 3 cronjobs and 2 deployments.
 
 To create:
 
+> [!NOTE]
+> Install istioctl alpha prior to running other commands:
+>
+> ``` shell
+> TAG=$(curl https://storage.googleapis.com/istio-build/dev/latest)
+> # on Linux
+> wget https://storage.googleapis.com/istio-build/dev/$TAG/istioctl-$TAG-linux-amd64.tar.gz
+> tar -xvf istioctl-$TAG-linux-amd64.tar.gz
+> # on macOS
+> wget https://storage.googleapis.com/istio-build/dev/$TAG/istioctl-$TAG-osx.tar.gz
+> tar -xvf istioctl-$TAG-osx.tar.gz
+> # on Windows
+> wget https://storage.googleapis.com/istio-build/dev/$TAG/istioctl-$TAG-win.zip
+> unzip istioctl-$TAG-win.zip
+> ```
+
 ``` shell
 kind create cluster --config kind.yaml # check kubectl context is set correctly before the following commands
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -
-istioctl install --set profile=ambient --skip-confirmation
+./istioctl install --set profile=ambient --set tag=$TAG --skip-confirmation
 kubectl label namespace default istio.io/dataplane-mode=ambient
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml --wait
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml --wait
