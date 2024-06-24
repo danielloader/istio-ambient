@@ -77,7 +77,7 @@ To create:
 ``` shell
 eksctl create cluster -f eksctl.yaml # check kubectl context is set correctly before the following commands
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -
-istioctl install --set profile=ambient --skip-confirmation
+./istioctl install --set profile=ambient --set tag=$TAG --skip-confirmation
 kubectl label namespace default istio.io/dataplane-mode=ambient
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml --wait
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml --wait
