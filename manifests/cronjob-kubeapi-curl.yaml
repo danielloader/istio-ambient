@@ -1,37 +1,7 @@
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: kubeapi-client
-rules:
-  - apiGroups:
-      - extensions
-      - apps
-    resources:
-      - deployments
-    verbs:
-      - 'list'
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: kubeapi-client
-subjects:
-  - kind: ServiceAccount
-    name: kubeapi-client
-roleRef:
-  kind: Role
-  name: kubeapi-client
-  apiGroup: ""
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: kubeapi-client
----
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: kubeapi-client
+  name: cronjob-kubeapi-client
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 360

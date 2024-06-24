@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubeapi-curl-client
+  name: deployment-kubeapi-client
 spec:
   selector:
     matchLabels:
-      app: kubeapi-curl-client
+      app: deployment-kubeapi-client
   template:
     metadata:
       labels:
-        app: kubeapi-curl-client
+        app: deployment-kubeapi-client
     spec:
       serviceAccountName: kubeapi-client
       containers:

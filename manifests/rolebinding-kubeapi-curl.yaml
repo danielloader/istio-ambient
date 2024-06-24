@@ -1,0 +1,11 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubeapi-client
+subjects:
+  - kind: ServiceAccount
+    name: kubeapi-client
+roleRef:
+  kind: Role
+  name: kubeapi-client
+  apiGroup: ""

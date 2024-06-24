@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: curl-client
+  name: cronjob-curl-client
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 360

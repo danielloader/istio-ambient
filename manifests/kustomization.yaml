@@ -9,3 +9,6 @@ resources:
   - deployment-kubeapi-curl.yaml
   - deployment-psql.yaml
   - storage-class.yaml
+  - role-kubeapi-curl.yaml
+  - rolebinding-kubeapi-curl.yaml
+  - service-account-kubeapi-curl.yaml

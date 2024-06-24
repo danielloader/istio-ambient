@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: psql-client
+  name: cronjob-psql-client
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 360
