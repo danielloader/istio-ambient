@@ -8,7 +8,8 @@ resources:
   - deployment-httpbin.yaml
   - deployment-kubeapi-curl.yaml
   - deployment-psql.yaml
-  - storage-class.yaml
   - role-kubeapi-curl.yaml
   - rolebinding-kubeapi-curl.yaml
   - service-account-kubeapi-curl.yaml
+  - service-httpbin.yaml
+  - storage-class.yaml
