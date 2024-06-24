@@ -35,8 +35,6 @@ There's 3 targets, 3 cronjobs and 2 deployments.
 
 ### Kind
 
-To create:
-
 > [!NOTE]
 > Install istioctl alpha prior to running other commands:
 >
@@ -52,6 +50,8 @@ To create:
 > wget https://storage.googleapis.com/istio-build/dev/$TAG/istioctl-$TAG-win.zip
 > unzip istioctl-$TAG-win.zip
 > ```
+
+To create:
 
 ``` shell
 kind create cluster --config kind.yaml # check kubectl context is set correctly before the following commands
