@@ -4,7 +4,7 @@ metadata:
   name: cronjob-psql-client
 spec:
   schedule: "* * * * *"
-  successfulJobsHistoryLimit: 360
+  successfulJobsHistoryLimit: 60
   jobTemplate:
     spec:
       template:

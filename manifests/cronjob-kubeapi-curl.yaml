@@ -4,7 +4,7 @@ metadata:
   name: cronjob-kubeapi-client
 spec:
   schedule: "* * * * *"
-  successfulJobsHistoryLimit: 360
+  successfulJobsHistoryLimit: 60
   jobTemplate:
     spec:
       template:
