@@ -26,4 +26,4 @@ spec:
                   name: postgres-app
                   key: uri
           command: ["/bin/sh", "-c", "--"]
-          args: ['while true; do psql $(URI) -c select 1 >/dev/null; echo $?; sleep 1; done']
+          args: ['while true; do psql $(URI) -c select 1 >/dev/null 2>&1; echo $?; sleep 1; done']

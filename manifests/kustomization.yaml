@@ -6,5 +6,6 @@ resources:
   - cronjob-kubeapi-curl.yaml
   - cronjob-psql.yaml
   - deployment-httpbin.yaml
+  - deployment-kubeapi-curl.yaml
   - deployment-psql.yaml
   - storage-class.yaml

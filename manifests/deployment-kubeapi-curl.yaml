@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeapi-curl-client
+spec:
+  selector:
+    matchLabels:
+      app: kubeapi-curl-client
+  template:
+    metadata:
+      labels:
+        app: kubeapi-curl-client
+    spec:
+      serviceAccountName: kubeapi-client
+      containers:
+        - name: curl
+          image: curlimages/curl:8.8.0
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          command: ["/bin/sh", "-c", "--"]
+          args: ['while true; do curl -s -f -o /dev/null https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}/apis/apps/v1 --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"; echo $?; sleep 1; done']
