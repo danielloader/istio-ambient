@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: psql
+  template:
+    metadata:
+      labels:
+        app: psql
+    spec:
+      containers:
+        - name: psql
+          image: postgres:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          command: ["sleep"]
+          args: ["infinity"]
