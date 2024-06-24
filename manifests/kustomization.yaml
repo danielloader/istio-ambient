@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cluster-postgres.yaml
+  - cronjob-httpbin-curl.yaml
+  - cronjob-kubeapi-curl.yaml
+  - cronjob-psql.yaml
+  - deployment-httpbin.yaml
+  - deployment-psql.yaml
+  - storage-class.yaml

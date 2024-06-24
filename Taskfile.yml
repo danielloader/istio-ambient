@@ -2,10 +2,10 @@
 
 version: '3'
 tasks:
-  kind:
+  setup-kind:
     cmds:
       - kind create cluster --config kind.yaml
-  eks:
+  setup-eks:
     cmds:
       - eksctl create cluster -f eksctl.yaml
   base:
@@ -16,12 +16,9 @@ tasks:
       - kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml --wait
       - kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml --wait
       - kubectl apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.23/releases/cnpg-1.23.2.yaml --wait
-  update-kind:
+  update:
     cmds:
-      - kubectl apply -k manifests/kind --wait
-  update-eks:
-    cmds:
-      - kubectl apply -k manifests/eks --wait
+      - kubectl apply -k manifests/ --wait
   destroy-kind:
     cmds:
       - kind delete cluster --config kind.yaml

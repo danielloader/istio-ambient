@@ -42,7 +42,8 @@ spec:
           serviceAccountName: kubeapi-client
           containers:
             - name: curl
-              image: curlimages/curl:latest
+              image: curlimages/curl:8.8.0
+              imagePullPolicy: IfNotPresent
               resources:
                 limits:
                   memory: "128Mi"
