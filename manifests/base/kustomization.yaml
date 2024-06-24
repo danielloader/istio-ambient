@@ -6,3 +6,4 @@ resources:
   - curl-cronjob.yaml
   - kubeapi-cronjob.yaml
   - psql-cronjob.yaml
+  - psql-deployment.yaml

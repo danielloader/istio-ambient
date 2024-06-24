@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psql-client
+spec:
+  selector:
+    matchLabels:
+      app: psql-client
+  template:
+    metadata:
+      labels:
+        app: psql-client
+    spec:
+      containers:
+        - name: psql-client
+          image: postgres:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          env:
+            - name: URI
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-app
+                  key: uri
+          command: ["/bin/sh", "-c", "--"]
+          args: ['while true; do psql $(URI) -c select 1 >/dev/null; echo $?; sleep 1; done']
