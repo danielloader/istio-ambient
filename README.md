@@ -76,6 +76,7 @@ To create:
 
 ``` shell
 eksctl create cluster -f eksctl.yaml # check kubectl context is set correctly before the following commands
+kubectl kustomize "github.com/rancher/local-path-provisioner/deploy?ref=v0.0.28" | kubectl apply -f -
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -
 ./istioctl install --set profile=ambient --set tag=$TAG --skip-confirmation
 kubectl label namespace default istio.io/dataplane-mode=ambient

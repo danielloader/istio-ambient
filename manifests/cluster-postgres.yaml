@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   name: postgres
 spec:
-  instances: 3
+  instances: 1
   resources:
     requests:
       cpu: 250m
