@@ -30,7 +30,7 @@ tasks:
       - kubectl apply -k manifests/ --wait
   destroy-kind:
     cmds:
-      - kind delete cluster --config kind.yaml
+      - kind delete cluster --name istio-ambient-cloudnativepg
   destroy-eks:
     cmds:
       - eksctl delete cluster -f eksctl.yaml --disable-nodegroup-eviction
